@@ -16,6 +16,7 @@ enum Experience {
 struct ContentView: View {
     
     @State var userExperience: Experience = .notBad
+    @State private var currentValue = 1.0
     var backgroundColor: Color {
         switch userExperience {
         case .bad:
@@ -36,14 +37,15 @@ struct ContentView: View {
             return "Good"
         }
     }
-    var mouthDegree: Double {
-        switch userExperience {
-        case .bad, .notBad:
-            return 270
-        case .good:
-            return 90
-        }
-    }
+    @State var mouthDegree: Double = 270
+//    {
+//        switch userExperience {
+//        case .bad, .notBad:
+//            return 270
+//        case .good:
+//            return 90
+//        }
+//    }
     
     var body: some View {
         VStack {
@@ -63,6 +65,9 @@ struct ContentView: View {
             
             sliderView
 
+//            CustomSliderView(value: $currentValue)
+            
+            Slider(value: $currentValue, in: 0...2)
         }
         .padding()
         .background(backgroundColor)
@@ -145,17 +150,11 @@ struct ContentView: View {
     }
     
     var mouthView: some View {
-//        Circle()
-//             .trim(from: 0.0, to: 0.3)
-//             .rotation(Angle(degrees: mouthDegree))
-//             .stroke(Color.black, style: StrokeStyle(lineWidth: 20, lineCap: .round))
-//             .offset(CGSize(width: 0, height: 25))
-//             .frame(width: 150, height: 70, alignment: .top)
-//             .background(.red)
         SemiCircleShape()
             .rotation(Angle(degrees: mouthDegree))
             .stroke(Color.black, style: StrokeStyle(lineWidth: 20, lineCap: .round))
             .frame(width: 75, height: 50)
+//            .animation(.easeOut(duration: 1.0), value: mouthDegree)
     }
     
     var experienceTextView: some View {
@@ -167,6 +166,9 @@ struct ContentView: View {
     var sliderView: some View {
         HStack {
             Button {
+                withAnimation(.bouncy) {
+                    mouthDegree = 270
+                }
                 userExperience = .bad
             } label: {
                 Text("Bad")
@@ -176,6 +178,9 @@ struct ContentView: View {
             .background(.ultraThinMaterial)
             
             Button {
+                withAnimation(.bouncy) {
+                    mouthDegree = 270
+                }
                 userExperience = .notBad
             } label: {
                 Text("Not bad")
@@ -185,6 +190,9 @@ struct ContentView: View {
             .background(.ultraThinMaterial)
             
             Button {
+                withAnimation(.bouncy) {
+                    mouthDegree = 90
+                }
                 userExperience = .good
             } label: {
                 Text("Good")
@@ -201,7 +209,6 @@ struct ContentView: View {
 }
 
 struct SemiCircleShape: Shape {
-    
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
