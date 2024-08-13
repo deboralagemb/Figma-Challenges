@@ -39,6 +39,7 @@ struct ContentView: View {
     }
     @State var mouthDegree: Double = 270
     @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (nil, 50)
+    @State var eyeSpacing: Double = 20
     
     var body: some View {
         VStack {
@@ -102,7 +103,7 @@ struct ContentView: View {
     }
     
     var eyesView: some View {
-        HStack(spacing: 40) {
+        HStack(spacing: eyeSpacing) {
             Capsule(style: .circular)
                 .frame(width: eyeFrame.width, height: eyeFrame.height)
             
@@ -112,11 +113,10 @@ struct ContentView: View {
     }
     
     var mouthView: some View {
-        SemiCircleShape()
+        SemiCircumferenceShape()
             .rotation(Angle(degrees: mouthDegree))
             .stroke(Color.black, style: StrokeStyle(lineWidth: 20, lineCap: .round))
             .frame(width: 75, height: 50)
-//            .animation(.easeOut(duration: 1.0), value: mouthDegree)
     }
     
     var experienceTextView: some View {
@@ -130,6 +130,7 @@ struct ContentView: View {
             Button {
                 withAnimation(.bouncy) {
                     eyeFrame = (50, 50)
+                    eyeSpacing = 40
                     mouthDegree = 270
                 }
                 userExperience = .bad
@@ -143,6 +144,7 @@ struct ContentView: View {
             Button {
                 withAnimation(.bouncy) {
                     eyeFrame = (nil, 50)
+                    eyeSpacing = 20
                     mouthDegree = 270
                 }
                 userExperience = .notBad
@@ -156,6 +158,7 @@ struct ContentView: View {
             Button {
                 withAnimation(.bouncy) {
                     eyeFrame = (150, 150)
+                    eyeSpacing = 16
                     mouthDegree = 90
                 }
                 userExperience = .good
@@ -173,16 +176,3 @@ struct ContentView: View {
     ContentView()
 }
 
-struct SemiCircleShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-
-        path.addArc(center: CGPoint(x: rect.minX, y: rect.midY),
-                    radius: rect.width / 2,
-                    startAngle: .degrees(-45),
-                    endAngle: .degrees(45),
-                    clockwise: false)
-        
-        return path
-    }
-}
