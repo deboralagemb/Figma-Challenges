@@ -38,14 +38,7 @@ struct ContentView: View {
         }
     }
     @State var mouthDegree: Double = 270
-//    {
-//        switch userExperience {
-//        case .bad, .notBad:
-//            return 270
-//        case .good:
-//            return 90
-//        }
-//    }
+    @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (nil, 50)
     
     var body: some View {
         VStack {
@@ -108,44 +101,13 @@ struct ContentView: View {
         }
     }
     
-    @ViewBuilder var eyesView: some View {
-        switch userExperience {
-        case .bad:
-            badEyes
-        case .notBad:
-            notBadEyes
-        case .good:
-            goodEyes
-        }
-    }
-    
-    var notBadEyes: some View {
-        HStack(spacing: 20) {
-            Capsule(style: .circular)
-                .frame(height: 50)
-            
-            Capsule(style: .circular)
-                .frame(height: 50)
-        }
-    }
-    
-    var badEyes: some View {
+    var eyesView: some View {
         HStack(spacing: 40) {
             Capsule(style: .circular)
-                .frame(width: 50, height: 50)
+                .frame(width: eyeFrame.width, height: eyeFrame.height)
             
             Capsule(style: .circular)
-                .frame(width: 50, height: 50)
-        }
-    }
-    
-    var goodEyes: some View {
-        HStack(spacing: 20) {
-            Capsule(style: .circular)
-                .frame(width: 150, height: 150)
-            
-            Capsule(style: .circular)
-                .frame(width: 150, height: 150)
+                .frame(width: eyeFrame.width, height: eyeFrame.height)
         }
     }
     
@@ -167,6 +129,7 @@ struct ContentView: View {
         HStack {
             Button {
                 withAnimation(.bouncy) {
+                    eyeFrame = (50, 50)
                     mouthDegree = 270
                 }
                 userExperience = .bad
@@ -179,6 +142,7 @@ struct ContentView: View {
             
             Button {
                 withAnimation(.bouncy) {
+                    eyeFrame = (nil, 50)
                     mouthDegree = 270
                 }
                 userExperience = .notBad
@@ -191,6 +155,7 @@ struct ContentView: View {
             
             Button {
                 withAnimation(.bouncy) {
+                    eyeFrame = (150, 150)
                     mouthDegree = 90
                 }
                 userExperience = .good
