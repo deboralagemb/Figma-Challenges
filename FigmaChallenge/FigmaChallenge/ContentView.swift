@@ -110,6 +110,8 @@ struct ContentView: View {
                              mouthDegree: $mouthDegree)
             
 //            Slider(value: $currentValue, in: 0...2)
+            
+            bottomButtonsView
         }
         .padding()
         .background(primaryColor)
@@ -229,6 +231,57 @@ struct ContentView: View {
             .frame(height: 50)
             .background(.ultraThinMaterial)
         }
+    }
+    
+    var bottomButtonsView: some View {
+        ZStack {
+            addNoteButtonView
+            
+            HStack {
+                Spacer(minLength: 150)
+                
+                submitButtonView
+            }
+        }.padding(.horizontal, 20)
+    }
+    
+    var addNoteButtonView: some View {
+        ZStack(alignment: .leading) {
+            Capsule(style: .circular)
+                .frame(height: 54)
+                .foregroundStyle(tertiaryColor)
+            
+            Text("Add note")
+                .font(Font.custom("Inter", size: 16))
+                .fontWeight(.medium)
+                .foregroundStyle(secondaryColor)
+                .padding(.leading, 30)
+        }
+    }
+    
+    var submitButtonView: some View {
+        ZStack {
+            Capsule(style: .circular)
+                .frame(height: 54)
+                .foregroundStyle(secondaryColor)
+            
+            HStack(/*alignment: .center, */spacing: 11) {
+                Text("Submit")
+                    .font(Font.custom("Inter", size: 16))
+                    .fontWeight(.medium)
+                    .foregroundStyle(tertiaryColor)
+                
+                Image(systemName: "arrow.right")
+                    .renderingMode(.template)
+                    .resizable()
+                    .foregroundStyle(tertiaryColor)
+                    .frame(width: 13, height: 9)
+            }
+        }
+    }
+    
+    var addNoteTextField: some View {
+        EmptyView()
     }
 }
 
