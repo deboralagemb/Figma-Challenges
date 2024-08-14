@@ -105,7 +105,9 @@ struct ContentView: View {
             
             sliderView
 
-            CustomSliderView(value: $currentValue, userExperience: $userExperience)
+            CustomSliderView(value: $currentValue, 
+                             userExperience: $userExperience,
+                             mouthDegree: $mouthDegree)
             
 //            Slider(value: $currentValue, in: 0...2)
         }

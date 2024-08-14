@@ -12,10 +12,14 @@ struct CustomSliderView: View {
     private var feedbackOptions: [Experience] = [.bad, .notBad, .good]
     @Binding var value: Int
     @Binding var userExperience: Experience
+    @Binding var mouthDegree: Double
     
-    public init(value: Binding<Int>, userExperience: Binding<Experience>) {
+    public init(value: Binding<Int>, 
+                userExperience: Binding<Experience>,
+                mouthDegree: Binding<Double>) {
         self._value = value
         self._userExperience = userExperience
+        self._mouthDegree = mouthDegree
     }
     
     var primaryColor: Color {
@@ -58,47 +62,53 @@ struct CustomSliderView: View {
             return .goodText
         }
     }
+    var experienceText: [String] = ["Bad", "Not bad", "Good"]
     
     var body: some View {
-        VStack {
-            ZStack {
-                Rectangle()
-                    .frame(height: 7)
-                    .padding(30)
-                    .foregroundStyle(tertiaryColor)
-                
-                Circle()
-                    .foregroundStyle(.ultraThinMaterial)
-                    .frame(height: 32)
-                
-                VStack {
-                    HStack {
-                        ForEach(range, id: \.self) { index in
-                            Circle()
-                                .frame(height: 17)
-                                .foregroundStyle(tertiaryColor)
-                            if index != range.last {  Spacer() }
-                        }
-                    }.padding(.horizontal, 20)
-                }
-            }
+        ZStack {
+            Rectangle()
+                .frame(height: 7)
+                .foregroundStyle(tertiaryColor)
+                .padding(.leading, 30)
+                .padding(.trailing, 32)
+                .padding(.bottom, 38)
             
             HStack {
-                Text("Bad")
-                
-                Spacer()
-                
-                Text("Not Bad")
-                
-                Spacer()
-                
-                Text("Good")
+                ForEach(range, id: \.self) { index in
+                    VStack(alignment: .center, spacing: 20) {
+                        Circle()
+                            .frame(height: 17)
+                            .foregroundStyle(tertiaryColor)
+                        
+                        Text(experienceText[index])
+                            .font(Font.custom("Inter", size: 16))
+                            .fontWeight(.regular)
+                            .foregroundStyle(secondaryColor)
+                    }
+                    
+                    if index != range.last {  Spacer() }
+                }
             }
-            .font(Font.custom("Inter", size: 16))
-            .fontWeight(.regular)
-            .foregroundStyle(secondaryColor)
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 20)
+            
+            circleButton
+                .padding(.bottom, 40)
         }
+    }
+    
+    var circleButton: some View {
+        ZStack {
+            Circle()
+                .foregroundStyle(secondaryColor)
+                .frame(height: 40)
+            
+            SemiCircumferenceShape()
+                .rotation(Angle(degrees: mouthDegree))
+                .stroke(primaryColor, style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
+                .frame(width: 20, height: 11)
+                .padding(.bottom, userExperience == .good ? -2 : 5)
+        }
+
     }
 }
 
