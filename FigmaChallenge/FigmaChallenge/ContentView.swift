@@ -71,6 +71,7 @@ struct ContentView: View {
     @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (103, 38)
     @State var eyeSpacing: Double = 20
     @State var areEyesSpinning: Bool = false
+    @State var textFieldEntry: String = ""
     
     init(){
         for family in UIFont.familyNames {
@@ -103,15 +104,17 @@ struct ContentView: View {
             
             Spacer()
             
-            sliderView
-
-            CustomSliderView(value: $currentValue, 
-                             userExperience: $userExperience,
-                             mouthDegree: $mouthDegree)
+//            sliderView
+//
+//            CustomSliderView(value: $currentValue, 
+//                             userExperience: $userExperience,
+//                             mouthDegree: $mouthDegree)
+//            
+////            Slider(value: $currentValue, in: 0...2)
+//            
+//            bottomButtonsView
             
-//            Slider(value: $currentValue, in: 0...2)
-            
-            bottomButtonsView
+            addNoteTextField
         }
         .padding()
         .background(primaryColor)
@@ -281,7 +284,24 @@ struct ContentView: View {
     }
     
     var addNoteTextField: some View {
-        EmptyView()
+        VStack {
+            TextField("Add note", text: $textFieldEntry)
+                .foregroundStyle(primaryColor.opacity(0.4))
+                .padding(16)
+            
+            HStack {
+                Spacer(minLength: 150)
+                
+                submitButtonView
+                    .padding(10)
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 30)
+                .fill(tertiaryColor)
+                .stroke(secondaryColor.opacity(0.4), lineWidth: 2)
+        )
+        .padding(.horizontal, 40)
     }
 }
 
