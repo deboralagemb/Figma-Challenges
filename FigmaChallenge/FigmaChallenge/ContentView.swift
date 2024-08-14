@@ -72,11 +72,26 @@ struct ContentView: View {
     @State var eyeSpacing: Double = 20
     @State var areEyesSpinning: Bool = false
     
+    init(){
+        for family in UIFont.familyNames {
+             print(family)
+             for names in UIFont.fontNames(forFamilyName: family){
+             print("== \(names)")
+             }
+        }
+    }
+    
     var body: some View {
         VStack {
             buttonsView
             
             Text("How was your shopping experience?")
+                .font(Font.custom("Poppins-Medium", size: 20))
+                .fontWeight(.medium)
+                .foregroundStyle(secondaryColor)
+                .padding(.vertical, 30)
+                .padding(.horizontal, 50)
+                .multilineTextAlignment(.center)
             
             Spacer()
             
@@ -90,7 +105,7 @@ struct ContentView: View {
             
             sliderView
 
-            CustomSliderView(range: 0...3, value: $currentValue)
+            CustomSliderView(value: $currentValue, userExperience: $userExperience)
             
 //            Slider(value: $currentValue, in: 0...2)
         }
@@ -105,7 +120,9 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "xmark")
                     .renderingMode(.template)
+                    .resizable()
                     .foregroundStyle(secondaryColor)
+                    .frame(width: 18, height: 18)
             }
             .frame(width: 54, height: 54)
             .background(Color.black.opacity(0.05))
@@ -118,7 +135,9 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "info.circle")
                     .renderingMode(.template)
+                    .resizable()
                     .foregroundStyle(secondaryColor)
+                    .frame(width: 22, height: 22)
             }
             .frame(width: 54, height: 54)
             .background(Color.black.opacity(0.05))
@@ -137,12 +156,12 @@ struct ContentView: View {
         HStack(spacing: eyeSpacing) {
             Capsule(style: .circular)
                 .frame(width: eyeFrame.width, height: eyeFrame.height)
-                .rotationEffect(.degrees(areEyesSpinning ? -90 : 0))
+                .rotationEffect(.degrees(areEyesSpinning ? -45 : 0))
                 .animation(.easeInOut(duration: 0.5), value: areEyesSpinning)
             
             Capsule(style: .circular)
                 .frame(width: eyeFrame.width, height: eyeFrame.height)
-                .rotationEffect(.degrees(areEyesSpinning ? 90 : 0))
+                .rotationEffect(.degrees(areEyesSpinning ? 45 : 0))
                 .animation(.easeInOut(duration: 0.5), value: areEyesSpinning)
         }
         .foregroundStyle(secondaryColor)
@@ -199,7 +218,6 @@ struct ContentView: View {
                     eyeFrame = (128, 128)
                     eyeSpacing = 16
                     mouthDegree = 90
-//                    areEyesSpinnig.toggle()
                 }
                 userExperience = .good
             } label: {

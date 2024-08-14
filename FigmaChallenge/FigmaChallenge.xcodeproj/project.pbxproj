@@ -16,8 +16,8 @@
 		D5C51C6A2C6C0FF1007D8A3D /* FigmaChallengeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C692C6C0FF1007D8A3D /* FigmaChallengeUITestsLaunchTests.swift */; };
 		D5C51C792C6C249C007D8A3D /* CustomSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C782C6C249C007D8A3D /* CustomSliderView.swift */; };
 		D5C51C7B2C6C2912007D8A3D /* SemiCircumferenceShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C7A2C6C2912007D8A3D /* SemiCircumferenceShape.swift */; };
-		D5C51CB42C6D18E2007D8A3D /* Poppins.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5C51CB32C6D18DE007D8A3D /* Poppins.ttf */; };
 		D5C51CB62C6D194E007D8A3D /* Inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5C51CB52C6D192C007D8A3D /* Inter.ttf */; };
+		D5C51CB92C6D4B1F007D8A3D /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5C51CB82C6D4B1F007D8A3D /* Poppins-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,9 +50,9 @@
 		D5C51C692C6C0FF1007D8A3D /* FigmaChallengeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FigmaChallengeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D5C51C782C6C249C007D8A3D /* CustomSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderView.swift; sourceTree = "<group>"; };
 		D5C51C7A2C6C2912007D8A3D /* SemiCircumferenceShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircumferenceShape.swift; sourceTree = "<group>"; };
-		D5C51CB32C6D18DE007D8A3D /* Poppins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Poppins.ttf; sourceTree = "<group>"; };
 		D5C51CB52C6D192C007D8A3D /* Inter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inter.ttf; sourceTree = "<group>"; };
 		D5C51CB72C6D196E007D8A3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D5C51CB82C6D4B1F007D8A3D /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				D5C51CB52C6D192C007D8A3D /* Inter.ttf */,
-				D5C51CB32C6D18DE007D8A3D /* Poppins.ttf */,
+				D5C51CB82C6D4B1F007D8A3D /* Poppins-Medium.ttf */,
 				D5C51C502C6C0FF1007D8A3D /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -254,8 +254,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5C51C542C6C0FF1007D8A3D /* Preview Assets.xcassets in Resources */,
+				D5C51CB92C6D4B1F007D8A3D /* Poppins-Medium.ttf in Resources */,
 				D5C51CB62C6D194E007D8A3D /* Inter.ttf in Resources */,
-				D5C51CB42C6D18E2007D8A3D /* Poppins.ttf in Resources */,
 				D5C51C512C6C0FF1007D8A3D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

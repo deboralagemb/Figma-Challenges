@@ -4,8 +4,8 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Resources/Inter.ttf</string>
-		<string>Resources/Poppins.ttf</string>
+		<string>Inter.ttf</string>
+		<string>Poppins-Medium.ttf</string>
 	</array>
 </dict>
 </plist>
