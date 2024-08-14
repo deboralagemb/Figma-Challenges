@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Experience {
+public enum Experience {
     case bad
     case notBad
     case good
@@ -16,15 +16,45 @@ enum Experience {
 struct ContentView: View {
     
     @State var userExperience: Experience = .notBad
-    @State private var currentValue = 1.0
-    var backgroundColor: Color {
+    @State private var currentValue = 1
+    var primaryColor: Color {
         switch userExperience {
         case .bad:
-            return .red
+            return .badPrimary
         case .notBad:
-            return .yellow
+            return .notBadPrimary
         case .good:
-            return .green
+            return .goodPrimary
+        }
+    }
+    var secondaryColor: Color {
+        switch userExperience {
+        case .bad:
+            return .badSecondary
+        case .notBad:
+            return .notBadSecondary
+        case .good:
+            return .goodSecondary
+        }
+    }
+    var tertiaryColor: Color {
+        switch userExperience {
+        case .bad:
+            return .badTertiary
+        case .notBad:
+            return .notBadTertiary
+        case .good:
+            return .goodTertiary
+        }
+    }
+    var textColor: Color {
+        switch userExperience {
+        case .bad:
+            return .badText
+        case .notBad:
+            return .notBadText
+        case .good:
+            return .goodText
         }
     }
     var experienceText: String {
@@ -38,8 +68,9 @@ struct ContentView: View {
         }
     }
     @State var mouthDegree: Double = 270
-    @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (nil, 50)
+    @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (103, 38)
     @State var eyeSpacing: Double = 20
+    @State var areEyesSpinning: Bool = false
     
     var body: some View {
         VStack {
@@ -59,12 +90,12 @@ struct ContentView: View {
             
             sliderView
 
-//            CustomSliderView(value: $currentValue)
+            CustomSliderView(range: 0...3, value: $currentValue)
             
-            Slider(value: $currentValue, in: 0...2)
+//            Slider(value: $currentValue, in: 0...2)
         }
         .padding()
-        .background(backgroundColor)
+        .background(primaryColor)
     }
     
     var buttonsView: some View {
@@ -74,10 +105,10 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "xmark")
                     .renderingMode(.template)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(secondaryColor)
             }
-            .frame(width: 50, height: 50)
-            .background(.ultraThinMaterial)
+            .frame(width: 54, height: 54)
+            .background(Color.black.opacity(0.05))
             .clipShape(Circle())
             
             Spacer()
@@ -87,10 +118,10 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "info.circle")
                     .renderingMode(.template)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(secondaryColor)
             }
-            .frame(width: 50, height: 50)
-            .background(.ultraThinMaterial)
+            .frame(width: 54, height: 54)
+            .background(Color.black.opacity(0.05))
             .clipShape(Circle())
         }
     }
@@ -106,32 +137,39 @@ struct ContentView: View {
         HStack(spacing: eyeSpacing) {
             Capsule(style: .circular)
                 .frame(width: eyeFrame.width, height: eyeFrame.height)
+                .rotationEffect(.degrees(areEyesSpinning ? -90 : 0))
+                .animation(.easeInOut(duration: 0.5), value: areEyesSpinning)
             
             Capsule(style: .circular)
                 .frame(width: eyeFrame.width, height: eyeFrame.height)
+                .rotationEffect(.degrees(areEyesSpinning ? 90 : 0))
+                .animation(.easeInOut(duration: 0.5), value: areEyesSpinning)
         }
+        .foregroundStyle(secondaryColor)
     }
     
     var mouthView: some View {
         SemiCircumferenceShape()
             .rotation(Angle(degrees: mouthDegree))
-            .stroke(Color.black, style: StrokeStyle(lineWidth: 20, lineCap: .round))
+            .stroke(secondaryColor, style: StrokeStyle(lineWidth: 20, lineCap: .round))
             .frame(width: 75, height: 50)
     }
     
     var experienceTextView: some View {
         Text(experienceText.uppercased())
-            .font(.largeTitle)
-            .fontWeight(.heavy)
+            .font(Font.system(size: 64, weight: .black))
+            .kerning(-4)
+            .foregroundStyle(textColor)
     }
     
     var sliderView: some View {
         HStack {
             Button {
                 withAnimation(.bouncy) {
-                    eyeFrame = (50, 50)
+                    eyeFrame = (60, 60)
                     eyeSpacing = 40
                     mouthDegree = 270
+                    areEyesSpinning.toggle()
                 }
                 userExperience = .bad
             } label: {
@@ -143,9 +181,10 @@ struct ContentView: View {
             
             Button {
                 withAnimation(.bouncy) {
-                    eyeFrame = (nil, 50)
+                    eyeFrame = (103, 38)
                     eyeSpacing = 20
                     mouthDegree = 270
+                    if userExperience == .bad { areEyesSpinning.toggle() }
                 }
                 userExperience = .notBad
             } label: {
@@ -157,9 +196,10 @@ struct ContentView: View {
             
             Button {
                 withAnimation(.bouncy) {
-                    eyeFrame = (150, 150)
+                    eyeFrame = (128, 128)
                     eyeSpacing = 16
                     mouthDegree = 90
+//                    areEyesSpinnig.toggle()
                 }
                 userExperience = .good
             } label: {
