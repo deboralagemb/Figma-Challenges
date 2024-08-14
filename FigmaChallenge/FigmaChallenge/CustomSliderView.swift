@@ -106,7 +106,7 @@ struct CustomSliderView: View {
                 .rotation(Angle(degrees: mouthDegree))
                 .stroke(primaryColor, style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
                 .frame(width: 20, height: 11)
-                .padding(.bottom, userExperience == .good ? -2 : 5)
+                .padding(.bottom, userExperience == .good ? -5 : 5)
         }
 
     }
