@@ -112,7 +112,7 @@ struct ContentView: View {
 //            
 ////            Slider(value: $currentValue, in: 0...2)
 //            
-//            bottomButtonsView
+            bottomButtonsView
             
             addNoteTextField
         }
@@ -249,38 +249,44 @@ struct ContentView: View {
     }
     
     var addNoteButtonView: some View {
-        ZStack(alignment: .leading) {
-            Capsule(style: .circular)
-                .frame(height: 54)
-                .foregroundStyle(tertiaryColor)
-            
-            Text("Add note")
-                .font(Font.custom("Inter", size: 16))
-                .fontWeight(.medium)
-                .foregroundStyle(secondaryColor)
-                .padding(.leading, 30)
+        Button {
+            print("Add note button pressed")
+        } label: {
+            HStack {
+                Text("Add note")
+                    .font(Font.custom("Inter", size: 16))
+                    .fontWeight(.medium)
+                    .padding(.leading, 16)
+                Spacer()
+            }
         }
+        .padding()
+        .background(tertiaryColor)
+        .foregroundStyle(secondaryColor)
+        .clipShape(Capsule())
+        .frame(height: 54)
     }
     
     var submitButtonView: some View {
-        ZStack {
-            Capsule(style: .circular)
-                .frame(height: 54)
-                .foregroundStyle(secondaryColor)
-            
-            HStack(/*alignment: .center, */spacing: 11) {
+        Button {
+            print("Submit button pressed")
+        } label: {
+            HStack(spacing: 11) {
                 Text("Submit")
                     .font(Font.custom("Inter", size: 16))
                     .fontWeight(.medium)
-                    .foregroundStyle(tertiaryColor)
                 
                 Image(systemName: "arrow.right")
                     .renderingMode(.template)
                     .resizable()
-                    .foregroundStyle(tertiaryColor)
                     .frame(width: 13, height: 9)
             }
         }
+        .padding()
+        .background(secondaryColor)
+        .foregroundStyle(tertiaryColor)
+        .clipShape(Capsule())
+        .frame(height: 54)
     }
     
     var addNoteTextField: some View {
