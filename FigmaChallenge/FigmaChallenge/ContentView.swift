@@ -57,16 +57,10 @@ struct ContentView: View {
             return .goodText
         }
     }
-    var experienceText: String {
-        switch userExperience {
-        case .bad:
-            return "Bad"
-        case .notBad:
-            return "Not bad"
-        case .good:
-            return "Good"
-        }
-    }
+    var experienceText: [String] = ["Bad", "Not bad", "Good"]
+    private var range: ClosedRange<Int> = 0...2
+    @State private var targetIndex: Int = 1
+
     @State var mouthDegree: Double = 270
     @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (103, 38)
     @State var eyeSpacing: Double = 20
@@ -104,7 +98,7 @@ struct ContentView: View {
             
             Spacer()
             
-//            sliderView
+            sliderView
 //
 //            CustomSliderView(value: $currentValue, 
 //                             userExperience: $userExperience,
@@ -112,9 +106,9 @@ struct ContentView: View {
 //            
 ////            Slider(value: $currentValue, in: 0...2)
 //            
-            bottomButtonsView
+//            bottomButtonsView
             
-            addNoteTextField
+//            addNoteTextField
         }
         .padding()
         .background(primaryColor)
@@ -156,7 +150,7 @@ struct ContentView: View {
         VStack(spacing: 0) {
             eyesView
             mouthView
-        }
+        }.frame(height: 200)
     }
     
     var eyesView: some View {
@@ -182,10 +176,31 @@ struct ContentView: View {
     }
     
     var experienceTextView: some View {
-        Text(experienceText.uppercased())
-            .font(Font.system(size: 64, weight: .black))
-            .kerning(-4)
-            .foregroundStyle(textColor)
+        ScrollViewReader { scrollProxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 10) {
+                    ForEach(range, id: \.self) { index in
+                        Text(experienceText[index].uppercased())
+                            .font(Font.system(size: 64, weight: .black))
+                            .kerning(-4)
+                            .foregroundStyle(textColor)
+                    }
+                    .containerRelativeFrame(.horizontal)
+                }
+                .scrollTargetLayout()
+            }
+            .contentMargins(.horizontal, 10, for: .scrollContent)
+            .scrollTargetBehavior(.viewAligned)
+            .frame(height: 100)
+            .onChange(of: targetIndex) {
+                withAnimation(.bouncy) {
+                    scrollProxy.scrollTo(targetIndex, anchor: .center)
+                }
+            }
+            .onAppear {
+                scrollProxy.scrollTo(targetIndex, anchor: .center)
+            }
+        }
     }
     
     var sliderView: some View {
@@ -195,6 +210,7 @@ struct ContentView: View {
                     eyeFrame = (60, 60)
                     eyeSpacing = 40
                     mouthDegree = 270
+                    targetIndex = 0
                     areEyesSpinning.toggle()
                 }
                 userExperience = .bad
@@ -210,6 +226,7 @@ struct ContentView: View {
                     eyeFrame = (103, 38)
                     eyeSpacing = 20
                     mouthDegree = 270
+                    targetIndex = 1
                     if userExperience == .bad { areEyesSpinning.toggle() }
                 }
                 userExperience = .notBad
@@ -225,6 +242,7 @@ struct ContentView: View {
                     eyeFrame = (128, 128)
                     eyeSpacing = 16
                     mouthDegree = 90
+                    targetIndex = 2
                 }
                 userExperience = .good
             } label: {
