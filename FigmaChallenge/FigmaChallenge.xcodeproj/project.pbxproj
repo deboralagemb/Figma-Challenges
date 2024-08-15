@@ -14,10 +14,11 @@
 		D5C51C5E2C6C0FF1007D8A3D /* FigmaChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C5D2C6C0FF1007D8A3D /* FigmaChallengeTests.swift */; };
 		D5C51C682C6C0FF1007D8A3D /* FigmaChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C672C6C0FF1007D8A3D /* FigmaChallengeUITests.swift */; };
 		D5C51C6A2C6C0FF1007D8A3D /* FigmaChallengeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C692C6C0FF1007D8A3D /* FigmaChallengeUITestsLaunchTests.swift */; };
-		D5C51C792C6C249C007D8A3D /* CustomSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C782C6C249C007D8A3D /* CustomSliderView.swift */; };
 		D5C51C7B2C6C2912007D8A3D /* SemiCircumferenceShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51C7A2C6C2912007D8A3D /* SemiCircumferenceShape.swift */; };
 		D5C51CB62C6D194E007D8A3D /* Inter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5C51CB52C6D192C007D8A3D /* Inter.ttf */; };
 		D5C51CB92C6D4B1F007D8A3D /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5C51CB82C6D4B1F007D8A3D /* Poppins-Medium.ttf */; };
+		D5C51CBB2C6EAA39007D8A3D /* CustomSliderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51CBA2C6EAA39007D8A3D /* CustomSliderButtonView.swift */; };
+		D5C51CBD2C6EB1B5007D8A3D /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C51CBC2C6EB1B5007D8A3D /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,11 +49,12 @@
 		D5C51C632C6C0FF1007D8A3D /* FigmaChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FigmaChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5C51C672C6C0FF1007D8A3D /* FigmaChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FigmaChallengeUITests.swift; sourceTree = "<group>"; };
 		D5C51C692C6C0FF1007D8A3D /* FigmaChallengeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FigmaChallengeUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		D5C51C782C6C249C007D8A3D /* CustomSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderView.swift; sourceTree = "<group>"; };
 		D5C51C7A2C6C2912007D8A3D /* SemiCircumferenceShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiCircumferenceShape.swift; sourceTree = "<group>"; };
 		D5C51CB52C6D192C007D8A3D /* Inter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inter.ttf; sourceTree = "<group>"; };
 		D5C51CB72C6D196E007D8A3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D5C51CB82C6D4B1F007D8A3D /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		D5C51CBA2C6EAA39007D8A3D /* CustomSliderButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSliderButtonView.swift; sourceTree = "<group>"; };
+		D5C51CBC2C6EB1B5007D8A3D /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,8 +109,9 @@
 				D5C51C7C2C6D17FB007D8A3D /* Resources */,
 				D5C51C4C2C6C0FEF007D8A3D /* FigmaChallengeApp.swift */,
 				D5C51C4E2C6C0FEF007D8A3D /* ContentView.swift */,
-				D5C51C782C6C249C007D8A3D /* CustomSliderView.swift */,
+				D5C51CBA2C6EAA39007D8A3D /* CustomSliderButtonView.swift */,
 				D5C51C7A2C6C2912007D8A3D /* SemiCircumferenceShape.swift */,
+				D5C51CBC2C6EB1B5007D8A3D /* ContentViewModel.swift */,
 				D5C51C522C6C0FF1007D8A3D /* Preview Content */,
 			);
 			path = FigmaChallenge;
@@ -283,8 +286,9 @@
 			files = (
 				D5C51C4F2C6C0FEF007D8A3D /* ContentView.swift in Sources */,
 				D5C51C7B2C6C2912007D8A3D /* SemiCircumferenceShape.swift in Sources */,
+				D5C51CBD2C6EB1B5007D8A3D /* ContentViewModel.swift in Sources */,
 				D5C51C4D2C6C0FEF007D8A3D /* FigmaChallengeApp.swift in Sources */,
-				D5C51C792C6C249C007D8A3D /* CustomSliderView.swift in Sources */,
+				D5C51CBB2C6EAA39007D8A3D /* CustomSliderButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

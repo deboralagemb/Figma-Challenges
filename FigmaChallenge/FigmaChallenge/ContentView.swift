@@ -15,58 +15,8 @@ public enum Experience {
 
 struct ContentView: View {
     
-    @State var userExperience: Experience = .notBad
-    @State private var currentValue = 1
-    var primaryColor: Color {
-        switch userExperience {
-        case .bad:
-            return .badPrimary
-        case .notBad:
-            return .notBadPrimary
-        case .good:
-            return .goodPrimary
-        }
-    }
-    var secondaryColor: Color {
-        switch userExperience {
-        case .bad:
-            return .badSecondary
-        case .notBad:
-            return .notBadSecondary
-        case .good:
-            return .goodSecondary
-        }
-    }
-    var tertiaryColor: Color {
-        switch userExperience {
-        case .bad:
-            return .badTertiary
-        case .notBad:
-            return .notBadTertiary
-        case .good:
-            return .goodTertiary
-        }
-    }
-    var textColor: Color {
-        switch userExperience {
-        case .bad:
-            return .badText
-        case .notBad:
-            return .notBadText
-        case .good:
-            return .goodText
-        }
-    }
-    var experienceText: [String] = ["Bad", "Not bad", "Good"]
-    private var range: ClosedRange<Int> = 0...2
-    @State private var targetIndex: Int = 1
+    @StateObject var viewModel = ContentViewModel()
 
-    @State var mouthDegree: Double = 270
-    @State var eyeFrame: (width: CGFloat?, height: CGFloat) = (103, 38)
-    @State var eyeSpacing: Double = 20
-    @State var areEyesSpinning: Bool = false
-    @State var textFieldEntry: String = ""
-    
     init(){
         for family in UIFont.familyNames {
              print(family)
@@ -83,7 +33,7 @@ struct ContentView: View {
             Text("How was your shopping experience?")
                 .font(Font.custom("Poppins-Medium", size: 20))
                 .fontWeight(.medium)
-                .foregroundStyle(secondaryColor)
+                .foregroundStyle(viewModel.secondaryColor)
                 .padding(.vertical, 30)
                 .padding(.horizontal, 50)
                 .multilineTextAlignment(.center)
@@ -97,21 +47,24 @@ struct ContentView: View {
             experienceTextView
             
             Spacer()
-            
-            sliderView
-//
-//            CustomSliderView(value: $currentValue, 
+
+
+//            CustomSliderView(value: $currentValue,
 //                             userExperience: $userExperience,
 //                             mouthDegree: $mouthDegree)
-//            
-////            Slider(value: $currentValue, in: 0...2)
+            
+            CustomSliderButtonView()
+//            CustomSlider()
+            
+//            Slider(value: $currentValue, in: 0...2)
 //            
 //            bottomButtonsView
             
 //            addNoteTextField
         }
         .padding()
-        .background(primaryColor)
+        .background(viewModel.primaryColor)
+        .environmentObject(viewModel)
     }
     
     var buttonsView: some View {
@@ -122,7 +75,7 @@ struct ContentView: View {
                 Image(systemName: "xmark")
                     .renderingMode(.template)
                     .resizable()
-                    .foregroundStyle(secondaryColor)
+                    .foregroundStyle(viewModel.secondaryColor)
                     .frame(width: 18, height: 18)
             }
             .frame(width: 54, height: 54)
@@ -137,7 +90,7 @@ struct ContentView: View {
                 Image(systemName: "info.circle")
                     .renderingMode(.template)
                     .resizable()
-                    .foregroundStyle(secondaryColor)
+                    .foregroundStyle(viewModel.secondaryColor)
                     .frame(width: 22, height: 22)
             }
             .frame(width: 54, height: 54)
@@ -154,24 +107,24 @@ struct ContentView: View {
     }
     
     var eyesView: some View {
-        HStack(spacing: eyeSpacing) {
+        HStack(spacing: viewModel.eyeSpacing) {
             Capsule(style: .circular)
-                .frame(width: eyeFrame.width, height: eyeFrame.height)
-                .rotationEffect(.degrees(areEyesSpinning ? -45 : 0))
-                .animation(.easeInOut(duration: 0.5), value: areEyesSpinning)
+                .frame(width: viewModel.eyeFrame.width, height: viewModel.eyeFrame.height)
+                .rotationEffect(.degrees(viewModel.areEyesSpinning ? -45 : 0))
+                .animation(.easeInOut(duration: 0.5), value: viewModel.areEyesSpinning)
             
             Capsule(style: .circular)
-                .frame(width: eyeFrame.width, height: eyeFrame.height)
-                .rotationEffect(.degrees(areEyesSpinning ? 45 : 0))
-                .animation(.easeInOut(duration: 0.5), value: areEyesSpinning)
+                .frame(width: viewModel.eyeFrame.width, height: viewModel.eyeFrame.height)
+                .rotationEffect(.degrees(viewModel.areEyesSpinning ? 45 : 0))
+                .animation(.easeInOut(duration: 0.5), value: viewModel.areEyesSpinning)
         }
-        .foregroundStyle(secondaryColor)
+        .foregroundStyle(viewModel.secondaryColor)
     }
     
     var mouthView: some View {
         SemiCircumferenceShape()
-            .rotation(Angle(degrees: mouthDegree))
-            .stroke(secondaryColor, style: StrokeStyle(lineWidth: 20, lineCap: .round))
+            .rotation(Angle(degrees: viewModel.mouthDegree))
+            .stroke(viewModel.secondaryColor, style: StrokeStyle(lineWidth: 20, lineCap: .round))
             .frame(width: 75, height: 50)
     }
     
@@ -179,11 +132,11 @@ struct ContentView: View {
         ScrollViewReader { scrollProxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 10) {
-                    ForEach(range, id: \.self) { index in
-                        Text(experienceText[index].uppercased())
+                    ForEach(viewModel.range, id: \.self) { index in
+                        Text(viewModel.experienceText[index].uppercased())
                             .font(Font.system(size: 64, weight: .black))
                             .kerning(-4)
-                            .foregroundStyle(textColor)
+                            .foregroundStyle(viewModel.textColor)
                     }
                     .containerRelativeFrame(.horizontal)
                 }
@@ -192,65 +145,14 @@ struct ContentView: View {
             .contentMargins(.horizontal, 10, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
             .frame(height: 100)
-            .onChange(of: targetIndex) {
+            .onChange(of: viewModel.targetIndex) {
                 withAnimation(.bouncy) {
-                    scrollProxy.scrollTo(targetIndex, anchor: .center)
+                    scrollProxy.scrollTo(viewModel.targetIndex, anchor: .center)
                 }
             }
             .onAppear {
-                scrollProxy.scrollTo(targetIndex, anchor: .center)
+                scrollProxy.scrollTo(viewModel.targetIndex, anchor: .center)
             }
-        }
-    }
-    
-    var sliderView: some View {
-        HStack {
-            Button {
-                withAnimation(.bouncy) {
-                    eyeFrame = (60, 60)
-                    eyeSpacing = 40
-                    mouthDegree = 270
-                    targetIndex = 0
-                    areEyesSpinning.toggle()
-                }
-                userExperience = .bad
-            } label: {
-                Text("Bad")
-                    .foregroundStyle(.black)
-            }
-            .frame(height: 50)
-            .background(.ultraThinMaterial)
-            
-            Button {
-                withAnimation(.bouncy) {
-                    eyeFrame = (103, 38)
-                    eyeSpacing = 20
-                    mouthDegree = 270
-                    targetIndex = 1
-                    if userExperience == .bad { areEyesSpinning.toggle() }
-                }
-                userExperience = .notBad
-            } label: {
-                Text("Not bad")
-                    .foregroundStyle(.black)
-            }
-            .frame(height: 50)
-            .background(.ultraThinMaterial)
-            
-            Button {
-                withAnimation(.bouncy) {
-                    eyeFrame = (128, 128)
-                    eyeSpacing = 16
-                    mouthDegree = 90
-                    targetIndex = 2
-                }
-                userExperience = .good
-            } label: {
-                Text("Good")
-                    .foregroundStyle(.black)
-            }
-            .frame(height: 50)
-            .background(.ultraThinMaterial)
         }
     }
     
@@ -279,8 +181,8 @@ struct ContentView: View {
             }
         }
         .padding()
-        .background(tertiaryColor)
-        .foregroundStyle(secondaryColor)
+        .background(viewModel.tertiaryColor)
+        .foregroundStyle(viewModel.secondaryColor)
         .clipShape(Capsule())
         .frame(height: 54)
     }
@@ -301,16 +203,16 @@ struct ContentView: View {
             }
         }
         .padding()
-        .background(secondaryColor)
-        .foregroundStyle(tertiaryColor)
+        .background(viewModel.secondaryColor)
+        .foregroundStyle(viewModel.tertiaryColor)
         .clipShape(Capsule())
         .frame(height: 54)
     }
     
     var addNoteTextField: some View {
         VStack {
-            TextField("Add note", text: $textFieldEntry)
-                .foregroundStyle(primaryColor.opacity(0.4))
+            TextField("Add note", text: $viewModel.textFieldEntry)
+                .foregroundStyle(viewModel.primaryColor.opacity(0.4))
                 .padding(16)
             
             HStack {
@@ -322,8 +224,8 @@ struct ContentView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 30)
-                .fill(tertiaryColor)
-                .stroke(secondaryColor.opacity(0.4), lineWidth: 2)
+                .fill(viewModel.tertiaryColor)
+                .stroke(viewModel.secondaryColor.opacity(0.4), lineWidth: 2)
         )
         .padding(.horizontal, 40)
     }
