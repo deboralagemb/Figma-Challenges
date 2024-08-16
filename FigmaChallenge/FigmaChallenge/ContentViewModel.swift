@@ -95,4 +95,8 @@ class ContentViewModel: ObservableObject {
         targetIndex = 2
         userExperience = .good
     }
+    
+    func sliderTextColor(_ isSelected: Bool) -> Color {
+        return isSelected ? secondaryColor : tertiaryColor
+    }
 }

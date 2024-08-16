@@ -48,17 +48,9 @@ struct ContentView: View {
             
             Spacer()
 
-
-//            CustomSliderView(value: $currentValue,
-//                             userExperience: $userExperience,
-//                             mouthDegree: $mouthDegree)
-            
             CustomSliderButtonView()
-//            CustomSlider()
-            
-//            Slider(value: $currentValue, in: 0...2)
-//            
-//            bottomButtonsView
+
+            bottomButtonsView
             
 //            addNoteTextField
         }
@@ -146,7 +138,8 @@ struct ContentView: View {
             .scrollTargetBehavior(.viewAligned)
             .frame(height: 100)
             .onChange(of: viewModel.targetIndex) {
-                withAnimation(.bouncy) {
+                withAnimation(.interpolatingSpring(stiffness: 50, damping: 5)) {
+                       // Adjust the scroll position slightly to simulate a bounce
                     scrollProxy.scrollTo(viewModel.targetIndex, anchor: .center)
                 }
             }
@@ -165,7 +158,9 @@ struct ContentView: View {
                 
                 submitButtonView
             }
-        }.padding(.horizontal, 20)
+        }
+        .padding(.horizontal, 30)
+        .padding(.top, 50)
     }
     
     var addNoteButtonView: some View {
@@ -174,7 +169,7 @@ struct ContentView: View {
         } label: {
             HStack {
                 Text("Add note")
-                    .font(Font.custom("Inter", size: 16))
+                    .font(Font.custom("Inter 18pt", size: 16))
                     .fontWeight(.medium)
                     .padding(.leading, 16)
                 Spacer()
@@ -193,7 +188,7 @@ struct ContentView: View {
         } label: {
             HStack(spacing: 11) {
                 Text("Submit")
-                    .font(Font.custom("Inter", size: 16))
+                    .font(Font.custom("Inter 18pt", size: 16))
                     .fontWeight(.medium)
                 
                 Image(systemName: "arrow.right")

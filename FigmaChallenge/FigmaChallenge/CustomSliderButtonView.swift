@@ -18,32 +18,28 @@ struct CustomSliderButtonView: View {
                 .padding(.leading, 30)
                 .padding(.trailing, 32)
             
-            HStack {
-                ForEach(viewModel.range, id: \.self) { index in
-                    
-                    Button {
-                        withAnimation(.bouncy) {
-                            if index == 0 { viewModel.badButtonPressed() }
-                            if index == 1 { viewModel.notBadButtonPressed() }
-                            if index == 2 { viewModel.goodButtonPressed() }
+            VStack(spacing: 30) {
+                HStack {
+                    ForEach(viewModel.range, id: \.self) { index in
+                        Button {
+                            withAnimation(.bouncy) {
+                                if index == 0 { viewModel.badButtonPressed() }
+                                if index == 1 { viewModel.notBadButtonPressed() }
+                                if index == 2 { viewModel.goodButtonPressed() }
+                            }
+                        } label: {
+                            VStack(alignment: .center, spacing: 20) {
+                                Circle()
+                                    .frame(height: 17)
+                                    .foregroundStyle(viewModel.tertiaryColor)
+                            }
                         }
-                    } label: {
-                        VStack(alignment: .center, spacing: 20) {
-                            Circle()
-                                .frame(height: 17)
-                                .foregroundStyle(viewModel.tertiaryColor)
-//
-//                            Text(experienceText[index])
-//                                .font(Font.custom("Inter 18pt", size: 16))
-//                                .fontWeight(.regular)
-//                                .foregroundStyle(secondaryColor)
-                        }
+                        
+                        if index != viewModel.range.last { Spacer() }
                     }
-                    
-                    if index != viewModel.range.last { Spacer() }
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
             
             HStack {
                 if viewModel.userExperience == .good {
@@ -58,7 +54,22 @@ struct CustomSliderButtonView: View {
             }
             .padding(10)
             .animation(.easeInOut(duration: 0.5), value: viewModel.userExperience)
+            
+            
+            HStack {
+                ForEach(viewModel.range, id: \.self) { index in
+                    Text(viewModel.experienceText[index])
+                        .font(Font.custom("Inter 18pt", size: 16))
+                        .fontWeight(.regular)
+                        .foregroundStyle(viewModel.sliderTextColor(index == viewModel.targetIndex))
+                    if index != viewModel.range.last { Spacer() }
+                }
+            }
+            .padding(.top, 70)
+            .padding(.leading, 14)
+            .padding(.trailing, 10)
         }
+        .padding(.horizontal, 15)
     }
     
     var circleButton: some View {
