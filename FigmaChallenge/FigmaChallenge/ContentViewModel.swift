@@ -19,7 +19,8 @@ class ContentViewModel: ObservableObject {
     @Published var areEyesSpinning: Bool = false
     @Published var textFieldEntry: String = ""
     @Published var currentValue = 1
-    
+    @Published var isDefaultState = true
+
     // MARK: - Computed Properties
     var primaryColor: Color {
         switch userExperience {
@@ -97,6 +98,6 @@ class ContentViewModel: ObservableObject {
     }
     
     func sliderTextColor(_ isSelected: Bool) -> Color {
-        return isSelected ? secondaryColor : tertiaryColor
+        isSelected ? secondaryColor : tertiaryColor
     }
 }

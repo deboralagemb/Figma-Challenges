@@ -16,6 +16,11 @@ public enum Experience {
 struct ContentView: View {
     
     @StateObject var viewModel = ContentViewModel()
+    @FocusState var isEditingText: Bool {
+        didSet {
+            viewModel.isDefaultState = isEditingText
+        }
+    }
 
     init(){
         for family in UIFont.familyNames {
@@ -30,33 +35,45 @@ struct ContentView: View {
         VStack {
             buttonsView
             
-            Text("How was your shopping experience?")
-                .font(Font.custom("Poppins-Medium", size: 20))
-                .fontWeight(.medium)
-                .foregroundStyle(viewModel.secondaryColor)
-                .padding(.vertical, 30)
-                .padding(.horizontal, 50)
-                .multilineTextAlignment(.center)
-            
-            Spacer()
+            if viewModel.isDefaultState {
+                Text("How was your shopping experience?")
+                    .font(Font.custom("Poppins-Medium", size: 20))
+                    .fontWeight(.medium)
+                    .foregroundStyle(viewModel.secondaryColor)
+                    .padding(.vertical, 30)
+                    .padding(.horizontal, 50)
+                    .multilineTextAlignment(.center)
+                
+                Spacer()
+            }
             
             faceView
+                .padding(.vertical, viewModel.isDefaultState ? 0 : 30)
             
-            Spacer()
+            if viewModel.isDefaultState {
+                Spacer()
+                
+                experienceTextView
+                
+                Spacer()
+                
+                CustomSliderButtonView()
+                
+                bottomButtonsView
+            }
             
-            experienceTextView
-            
-            Spacer()
+            if !viewModel.isDefaultState {
+                addNoteTextField
 
-            CustomSliderButtonView()
-
-            bottomButtonsView
-            
-//            addNoteTextField
+                Spacer()
+            }
         }
         .padding()
         .background(viewModel.primaryColor)
         .environmentObject(viewModel)
+        .onTapGesture {
+            isEditingText = false
+        }
     }
     
     var buttonsView: some View {
@@ -95,7 +112,7 @@ struct ContentView: View {
         VStack(spacing: 0) {
             eyesView
             mouthView
-        }.frame(height: 200)
+        }/*.frame(height: 200)*/
     }
     
     var eyesView: some View {
@@ -165,7 +182,7 @@ struct ContentView: View {
     
     var addNoteButtonView: some View {
         Button {
-            print("Add note button pressed")
+            isEditingText = true
         } label: {
             HStack {
                 Text("Add note")
@@ -207,6 +224,7 @@ struct ContentView: View {
     var addNoteTextField: some View {
         VStack {
             TextField("Add note", text: $viewModel.textFieldEntry)
+                .focused($isEditingText)
                 .foregroundStyle(viewModel.primaryColor.opacity(0.4))
                 .padding(16)
             
@@ -222,7 +240,8 @@ struct ContentView: View {
                 .fill(viewModel.tertiaryColor)
                 .stroke(viewModel.secondaryColor.opacity(0.4), lineWidth: 2)
         )
-        .padding(.horizontal, 40)
+        .padding(.top, 30)
+        .padding(.horizontal, 30)
     }
 }
 

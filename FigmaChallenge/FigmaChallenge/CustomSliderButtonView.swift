@@ -84,7 +84,6 @@ struct CustomSliderButtonView: View {
                 .frame(width: 20, height: 11)
                 .padding(.bottom, viewModel.userExperience == .good ? -5 : 5)
         }
-
     }
 }
 
