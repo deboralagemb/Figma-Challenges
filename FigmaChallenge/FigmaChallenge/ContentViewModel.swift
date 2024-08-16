@@ -20,6 +20,7 @@ class ContentViewModel: ObservableObject {
     @Published var textFieldEntry: String = ""
     @Published var currentValue = 1
     @Published var isDefaultState = true
+    @Published var feedbackSubmitted = false
 
     // MARK: - Computed Properties
     var primaryColor: Color {
@@ -64,6 +65,30 @@ class ContentViewModel: ObservableObject {
         case .good:
             return .goodText
         }
+    }
+    
+    var feedbackSubmittedTitle: String {
+        switch userExperience {
+        case .bad, .notBad:
+            return "Thank you for your feedback!"
+        case .good:
+            return "Thanks for your feedback!"
+        }
+    }
+    
+    var feedbackSubmittedSubtitle: String {
+        switch userExperience {
+        case .bad:
+            return "We're sorry to hear that. We're working hard to improve!"
+        case .notBad:
+            return "We appreciate your input and are always looking to improve!"
+        case .good:
+            return "We're glad you had a great experience!"
+        }
+    }
+    
+    var primaryButtonViewText: String {
+        feedbackSubmitted ? "Continue my shopping" : "Submit"
     }
     
     // MARK: - Variables

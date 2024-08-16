@@ -35,7 +35,7 @@ struct ContentView: View {
         VStack {
             buttonsView
             
-            if viewModel.isDefaultState {
+            if viewModel.isDefaultState && !viewModel.feedbackSubmitted {
                 Text("How was your shopping experience?")
                     .font(Font.custom("Poppins-Medium", size: 20))
                     .fontWeight(.medium)
@@ -50,7 +50,7 @@ struct ContentView: View {
             faceView
                 .padding(.vertical, viewModel.isDefaultState ? 0 : 30)
             
-            if viewModel.isDefaultState {
+            if viewModel.isDefaultState && !viewModel.feedbackSubmitted {
                 Spacer()
                 
                 experienceTextView
@@ -60,6 +60,12 @@ struct ContentView: View {
                 CustomSliderButtonView()
                 
                 bottomButtonsView
+            }
+            
+            if viewModel.feedbackSubmitted {
+                thanksForFeedbackView
+                
+                Spacer()
             }
             
             if !viewModel.isDefaultState {
@@ -168,19 +174,19 @@ struct ContentView: View {
     
     var bottomButtonsView: some View {
         ZStack {
-            addNoteButtonView
+            secondaryButtonView
             
             HStack {
                 Spacer(minLength: 150)
                 
-                submitButtonView
+                primaryButtonView
             }
         }
         .padding(.horizontal, 30)
         .padding(.top, 50)
     }
     
-    var addNoteButtonView: some View {
+    var secondaryButtonView: some View {
         Button {
             isEditingText = true
         } label: {
@@ -199,12 +205,13 @@ struct ContentView: View {
         .frame(height: 54)
     }
     
-    var submitButtonView: some View {
+    var primaryButtonView: some View {
         Button {
-            print("Submit button pressed")
+            viewModel.feedbackSubmitted = true
         } label: {
             HStack(spacing: 11) {
-                Text("Submit")
+                Spacer()
+                Text(viewModel.primaryButtonViewText)
                     .font(Font.custom("Inter 18pt", size: 16))
                     .fontWeight(.medium)
                 
@@ -212,6 +219,8 @@ struct ContentView: View {
                     .renderingMode(.template)
                     .resizable()
                     .frame(width: 13, height: 9)
+                
+                Spacer()
             }
         }
         .padding()
@@ -223,25 +232,49 @@ struct ContentView: View {
     
     var addNoteTextField: some View {
         VStack {
-            TextField("Add note", text: $viewModel.textFieldEntry)
-                .focused($isEditingText)
-                .foregroundStyle(viewModel.primaryColor.opacity(0.4))
-                .padding(16)
             
-            HStack {
-                Spacer(minLength: 150)
+            if !viewModel.feedbackSubmitted {
+                TextField("Add note", text: $viewModel.textFieldEntry)
+                    .focused($isEditingText)
+                    .foregroundStyle(viewModel.primaryColor.opacity(0.4))
+                    .padding(16)
                 
-                submitButtonView
+            }
+            
+            HStack(spacing: .zero) {
+                if !viewModel.feedbackSubmitted {
+                    Spacer(minLength: 150)
+                }
+                
+                primaryButtonView
                     .padding(10)
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 30)
-                .fill(viewModel.tertiaryColor)
-                .stroke(viewModel.secondaryColor.opacity(0.4), lineWidth: 2)
-        )
+        .if(!viewModel.feedbackSubmitted, transform: { vstack in
+            vstack
+                .background(
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(viewModel.tertiaryColor)
+                        .stroke(viewModel.secondaryColor.opacity(0.4), lineWidth: 2)
+                )
+        })
         .padding(.top, 30)
         .padding(.horizontal, 30)
+    }
+    
+    var thanksForFeedbackView: some View {
+        VStack(spacing: 18) {
+            Text(viewModel.feedbackSubmittedTitle)
+                .font(Font.system(size: 33, weight: .black))
+                .foregroundStyle(viewModel.secondaryColor)
+                .multilineTextAlignment(.center)
+            
+            Text(viewModel.feedbackSubmittedSubtitle)
+                .font(Font.custom("Poppins-Medium", size: 18))
+                .fontWeight(.medium)
+                .foregroundStyle(viewModel.secondaryColor)
+                .multilineTextAlignment(.center)
+        }
     }
 }
 
@@ -249,3 +282,17 @@ struct ContentView: View {
     ContentView()
 }
 
+extension View {
+    /// Applies the given transform if the given condition evaluates to `true`.
+    /// - Parameters:
+    ///   - condition: The condition to evaluate.
+    ///   - transform: The transform to apply to the source `View`.
+    /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
