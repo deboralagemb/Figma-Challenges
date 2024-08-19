@@ -16,11 +16,8 @@ public enum Experience {
 struct ContentView: View {
     
     @StateObject var viewModel = ContentViewModel()
-    @FocusState var isEditingText: Bool {
-        didSet {
-            viewModel.isDefaultState = isEditingText
-        }
-    }
+    @FocusState var isFocused: Bool
+    @State var isEditing: Bool = false
 
     init(){
         for family in UIFont.familyNames {
@@ -35,7 +32,7 @@ struct ContentView: View {
         VStack {
             buttonsView
             
-            if viewModel.isDefaultState && !viewModel.feedbackSubmitted {
+            if !isEditing && !viewModel.feedbackSubmitted {
                 Text("How was your shopping experience?")
                     .font(Font.custom("Poppins-Medium", size: 20))
                     .fontWeight(.medium)
@@ -48,9 +45,9 @@ struct ContentView: View {
             }
             
             faceView
-                .padding(.vertical, viewModel.isDefaultState ? 0 : 30)
+                .padding(.vertical, isEditing ? 30 : 0)
             
-            if viewModel.isDefaultState && !viewModel.feedbackSubmitted {
+            if !isEditing && !viewModel.feedbackSubmitted {
                 Spacer()
                 
                 experienceTextView
@@ -68,24 +65,25 @@ struct ContentView: View {
                 Spacer()
             }
             
-            if !viewModel.isDefaultState {
+            if isEditing {
                 addNoteTextField
-
+                    .animation(.easeInOut(duration: 0.3), value: isEditing)
+                    .transition(.move(edge: .bottom))
+                
                 Spacer()
+                    .animation(.easeInOut(duration: 0.3), value: isEditing)
             }
         }
         .padding()
         .background(viewModel.primaryColor)
         .environmentObject(viewModel)
-        .onTapGesture {
-            isEditingText = false
-        }
     }
     
     var buttonsView: some View {
         HStack {
             Button {
-                print("xmark button tapped")
+                isFocused = false
+                isEditing = false
             } label: {
                 Image(systemName: "xmark")
                     .renderingMode(.template)
@@ -118,19 +116,19 @@ struct ContentView: View {
         VStack(spacing: 0) {
             eyesView
             mouthView
-        }/*.frame(height: 200)*/
+        }
     }
     
     var eyesView: some View {
         HStack(spacing: viewModel.eyeSpacing) {
             Capsule(style: .circular)
                 .frame(width: viewModel.eyeFrame.width, height: viewModel.eyeFrame.height)
-                .rotationEffect(.degrees(viewModel.areEyesSpinning ? -45 : 0))
+                .rotationEffect(.degrees(-viewModel.eyesDegree))
                 .animation(.easeInOut(duration: 0.5), value: viewModel.areEyesSpinning)
             
             Capsule(style: .circular)
                 .frame(width: viewModel.eyeFrame.width, height: viewModel.eyeFrame.height)
-                .rotationEffect(.degrees(viewModel.areEyesSpinning ? 45 : 0))
+                .rotationEffect(.degrees(viewModel.eyesDegree))
                 .animation(.easeInOut(duration: 0.5), value: viewModel.areEyesSpinning)
         }
         .foregroundStyle(viewModel.secondaryColor)
@@ -188,7 +186,10 @@ struct ContentView: View {
     
     var secondaryButtonView: some View {
         Button {
-            isEditingText = true
+            withAnimation {
+                isFocused = true
+                isEditing = true
+            }
         } label: {
             HStack {
                 Text("Add note")
@@ -207,7 +208,8 @@ struct ContentView: View {
     
     var primaryButtonView: some View {
         Button {
-            viewModel.feedbackSubmitted = true
+            viewModel.feedbackSubmitted.toggle()
+            if !viewModel.feedbackSubmitted { isEditing = false }
         } label: {
             HStack(spacing: 11) {
                 Spacer()
@@ -235,15 +237,17 @@ struct ContentView: View {
             
             if !viewModel.feedbackSubmitted {
                 TextField("Add note", text: $viewModel.textFieldEntry)
-                    .focused($isEditingText)
+                    .focused($isFocused)
                     .foregroundStyle(viewModel.primaryColor.opacity(0.4))
                     .padding(16)
-                
+                    .onChange(of: isFocused) { oldValue, newValue in
+                        isEditing = newValue
+                    }
             }
             
             HStack(spacing: .zero) {
                 if !viewModel.feedbackSubmitted {
-                    Spacer(minLength: 150)
+                    Spacer(minLength: 130)
                 }
                 
                 primaryButtonView

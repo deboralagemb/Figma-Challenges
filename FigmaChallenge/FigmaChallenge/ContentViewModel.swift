@@ -19,8 +19,8 @@ class ContentViewModel: ObservableObject {
     @Published var areEyesSpinning: Bool = false
     @Published var textFieldEntry: String = ""
     @Published var currentValue = 1
-    @Published var isDefaultState = true
     @Published var feedbackSubmitted = false
+    @Published var eyesDegree: Double = 0
 
     // MARK: - Computed Properties
     var primaryColor: Color {
@@ -101,7 +101,10 @@ class ContentViewModel: ObservableObject {
         eyeSpacing = 40
         mouthDegree = 270
         targetIndex = 0
-        areEyesSpinning.toggle()
+        eyesDegree = 45
+        if userExperience == .notBad {
+            areEyesSpinning.toggle()
+        }
         userExperience = .bad
     }
     
@@ -110,7 +113,10 @@ class ContentViewModel: ObservableObject {
         eyeSpacing = 20
         mouthDegree = 270
         targetIndex = 1
-        if userExperience == .bad { areEyesSpinning.toggle() }
+        eyesDegree = 0
+        if userExperience == .bad {
+            areEyesSpinning.toggle()
+        }
         userExperience = .notBad
     }
     
@@ -119,6 +125,7 @@ class ContentViewModel: ObservableObject {
         eyeSpacing = 16
         mouthDegree = 90
         targetIndex = 2
+        if userExperience == .bad { areEyesSpinning.toggle() }
         userExperience = .good
     }
     
