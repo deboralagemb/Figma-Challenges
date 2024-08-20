@@ -102,9 +102,7 @@ class ContentViewModel: ObservableObject {
         mouthDegree = 270
         targetIndex = 0
         eyesDegree = 45
-        if userExperience == .notBad {
-            areEyesSpinning.toggle()
-        }
+        if userExperience == .notBad { areEyesSpinning.toggle() }
         userExperience = .bad
     }
     
@@ -114,9 +112,7 @@ class ContentViewModel: ObservableObject {
         mouthDegree = 270
         targetIndex = 1
         eyesDegree = 0
-        if userExperience == .bad {
-            areEyesSpinning.toggle()
-        }
+        if userExperience == .bad { areEyesSpinning.toggle() }
         userExperience = .notBad
     }
     

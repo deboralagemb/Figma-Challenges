@@ -18,18 +18,9 @@ struct ContentView: View {
     @StateObject var viewModel = ContentViewModel()
     @FocusState var isFocused: Bool
     @State var isEditing: Bool = false
-
-    init(){
-        for family in UIFont.familyNames {
-             print(family)
-             for names in UIFont.fontNames(forFamilyName: family){
-             print("== \(names)")
-             }
-        }
-    }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             buttonsView
             
             if !isEditing && !viewModel.feedbackSubmitted {
@@ -42,6 +33,11 @@ struct ContentView: View {
                     .multilineTextAlignment(.center)
                 
                 Spacer()
+            }
+            
+            if viewModel.feedbackSubmitted {
+                Spacer()
+                    .frame(height: 50)
             }
             
             faceView
@@ -61,14 +57,12 @@ struct ContentView: View {
             
             if viewModel.feedbackSubmitted {
                 thanksForFeedbackView
-                
-                Spacer()
+                    .transition(.move(edge: .bottom))
             }
             
             if isEditing {
                 addNoteTextField
                     .animation(.easeInOut(duration: 0.3), value: isEditing)
-                    .transition(.move(edge: .bottom))
                 
                 Spacer()
                     .animation(.easeInOut(duration: 0.3), value: isEditing)
@@ -77,6 +71,7 @@ struct ContentView: View {
         .padding()
         .background(viewModel.primaryColor)
         .environmentObject(viewModel)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
     
     var buttonsView: some View {
@@ -208,8 +203,10 @@ struct ContentView: View {
     
     var primaryButtonView: some View {
         Button {
-            viewModel.feedbackSubmitted.toggle()
-            if !viewModel.feedbackSubmitted { isEditing = false }
+            withAnimation {
+                viewModel.feedbackSubmitted.toggle()
+                if !viewModel.feedbackSubmitted { isEditing = false }
+            }
         } label: {
             HStack(spacing: 11) {
                 Spacer()
@@ -238,11 +235,8 @@ struct ContentView: View {
             if !viewModel.feedbackSubmitted {
                 TextField("Add note", text: $viewModel.textFieldEntry)
                     .focused($isFocused)
-                    .foregroundStyle(viewModel.primaryColor.opacity(0.4))
+                    .foregroundStyle(viewModel.secondaryColor)
                     .padding(16)
-                    .onChange(of: isFocused) { oldValue, newValue in
-                        isEditing = newValue
-                    }
             }
             
             HStack(spacing: .zero) {
@@ -259,15 +253,17 @@ struct ContentView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 30)
                         .fill(viewModel.tertiaryColor)
-                        .stroke(viewModel.secondaryColor.opacity(0.4), lineWidth: 2)
+                        .stroke(viewModel.secondaryColor.opacity(0.4), lineWidth: 3)
                 )
         })
-        .padding(.top, 30)
+        .padding(.top, viewModel.feedbackSubmitted ? 10 : 30)
         .padding(.horizontal, 30)
     }
     
     var thanksForFeedbackView: some View {
         VStack(spacing: 18) {
+            Spacer()
+            
             Text(viewModel.feedbackSubmittedTitle)
                 .font(Font.system(size: 33, weight: .black))
                 .foregroundStyle(viewModel.secondaryColor)
@@ -278,6 +274,8 @@ struct ContentView: View {
                 .fontWeight(.medium)
                 .foregroundStyle(viewModel.secondaryColor)
                 .multilineTextAlignment(.center)
+            
+            Spacer()
         }
     }
 }
