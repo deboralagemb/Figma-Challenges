@@ -24,13 +24,7 @@ struct ContentView: View {
             buttonsView
             
             if !isEditing && !viewModel.feedbackSubmitted {
-                Text("How was your shopping experience?")
-                    .font(Font.custom("Poppins-Medium", size: 20))
-                    .fontWeight(.medium)
-                    .foregroundStyle(viewModel.secondaryColor)
-                    .padding(.vertical, 30)
-                    .padding(.horizontal, 50)
-                    .multilineTextAlignment(.center)
+                mainTitleView
                 
                 Spacer()
             }
@@ -105,6 +99,16 @@ struct ContentView: View {
             .background(Color.black.opacity(0.05))
             .clipShape(Circle())
         }
+    }
+    
+    var mainTitleView: some View {
+        Text("How was your shopping experience?")
+            .font(Font.custom("Poppins-Medium", size: 20))
+            .fontWeight(.medium)
+            .foregroundStyle(viewModel.secondaryColor)
+            .padding(.vertical, 30)
+            .padding(.horizontal, 50)
+            .multilineTextAlignment(.center)
     }
     
     var faceView: some View {
