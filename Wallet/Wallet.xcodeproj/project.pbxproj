@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		D5980D772C7581F800E1A2AC /* WalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980D762C7581F800E1A2AC /* WalletApp.swift */; };
-		D5980D792C7581F800E1A2AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980D782C7581F800E1A2AC /* ContentView.swift */; };
+		D5980D792C7581F800E1A2AC /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980D782C7581F800E1A2AC /* WalletView.swift */; };
 		D5980D7B2C7581F900E1A2AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5980D7A2C7581F900E1A2AC /* Assets.xcassets */; };
 		D5980D7E2C7581F900E1A2AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5980D7D2C7581F900E1A2AC /* Preview Assets.xcassets */; };
 		D5980D882C7581FA00E1A2AC /* WalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980D872C7581FA00E1A2AC /* WalletTests.swift */; };
 		D5980D922C7581FA00E1A2AC /* WalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980D912C7581FA00E1A2AC /* WalletUITests.swift */; };
 		D5980D942C7581FA00E1A2AC /* WalletUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980D932C7581FA00E1A2AC /* WalletUITestsLaunchTests.swift */; };
+		D5980DA12C76AE4E00E1A2AC /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980DA02C76AE4E00E1A2AC /* CardModel.swift */; };
+		D5980DA32C76AED400E1A2AC /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5980DA22C76AED400E1A2AC /* WalletViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,7 @@
 /* Begin PBXFileReference section */
 		D5980D732C7581F800E1A2AC /* Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5980D762C7581F800E1A2AC /* WalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletApp.swift; sourceTree = "<group>"; };
-		D5980D782C7581F800E1A2AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D5980D782C7581F800E1A2AC /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		D5980D7A2C7581F900E1A2AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D5980D7D2C7581F900E1A2AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D5980D832C7581FA00E1A2AC /* WalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +46,8 @@
 		D5980D8D2C7581FA00E1A2AC /* WalletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5980D912C7581FA00E1A2AC /* WalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUITests.swift; sourceTree = "<group>"; };
 		D5980D932C7581FA00E1A2AC /* WalletUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D5980DA02C76AE4E00E1A2AC /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		D5980DA22C76AED400E1A2AC /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				D5980D762C7581F800E1A2AC /* WalletApp.swift */,
-				D5980D782C7581F800E1A2AC /* ContentView.swift */,
+				D5980D782C7581F800E1A2AC /* WalletView.swift */,
+				D5980DA22C76AED400E1A2AC /* WalletViewModel.swift */,
+				D5980DA02C76AE4E00E1A2AC /* CardModel.swift */,
 				D5980D7A2C7581F900E1A2AC /* Assets.xcassets */,
 				D5980D7C2C7581F900E1A2AC /* Preview Content */,
 			);
@@ -257,8 +263,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5980D792C7581F800E1A2AC /* ContentView.swift in Sources */,
+				D5980D792C7581F800E1A2AC /* WalletView.swift in Sources */,
+				D5980DA32C76AED400E1A2AC /* WalletViewModel.swift in Sources */,
 				D5980D772C7581F800E1A2AC /* WalletApp.swift in Sources */,
+				D5980DA12C76AE4E00E1A2AC /* CardModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

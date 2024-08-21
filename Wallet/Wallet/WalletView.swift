@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  WalletView.swift
 //  Wallet
 //
 //  Created by Débora Lage on 20/08/24.
@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct WalletView: View {
+    @StateObject var viewModel: WalletViewModel
+    
     var body: some View {
         ZStack {
             Color.primaryBackground
@@ -143,5 +145,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    WalletView()
 }
