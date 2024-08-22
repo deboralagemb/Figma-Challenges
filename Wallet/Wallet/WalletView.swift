@@ -14,11 +14,14 @@ struct WalletView: View {
         ScrollView {
             VStack(spacing: 42) {
                 buttonsView
+                    .padding(.horizontal, 40)
                 myCardsView
+                    .padding(.horizontal, 40)
                 carouselCard()
                 lastTransactionsView
+                    .padding(.horizontal, 40)
             }
-            .padding(.horizontal, 40)
+//            .padding(.horizontal, 40)
         }
         .background(Color.primaryBackground)
     }
@@ -85,7 +88,17 @@ struct WalletView: View {
     
     @ViewBuilder
     func carouselCard() -> some View {
-        singularCardView
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 20) {
+                ForEach(viewModel.cards, id: \.self) { card in
+                    singularCardView
+                }
+                .containerRelativeFrame(.horizontal)
+            }
+            .scrollTargetLayout()
+        }
+        .contentMargins(.horizontal, 40, for: .scrollContent)
+        .scrollTargetBehavior(.viewAligned)
     }
     
     var singularCardView: some View {
