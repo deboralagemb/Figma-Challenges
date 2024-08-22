@@ -8,21 +8,19 @@
 import SwiftUI
 
 struct WalletView: View {
-    @StateObject var viewModel: WalletViewModel
+    @StateObject var viewModel = WalletViewModel()
     
     var body: some View {
-        ZStack {
-            Color.primaryBackground
-                .ignoresSafeArea()
-            
-            VStack {
+        ScrollView {
+            VStack(spacing: 42) {
                 buttonsView
                 myCardsView
                 carouselCard()
+                lastTransactionsView
             }
-            .padding(40)
-            
+            .padding(.horizontal, 40)
         }
+        .background(Color.primaryBackground)
     }
     
     var buttonsView: some View {
@@ -44,8 +42,6 @@ struct WalletView: View {
                     .foregroundStyle(.white)
                     .font(Font.system(size: 44, weight: .bold))
             }
-            
-            
             Spacer()
             circularWhiteButton(image: "plus") { }
         }
@@ -140,6 +136,63 @@ struct WalletView: View {
         .padding(22)
         .background(Color.secondaryBackground)
         .mask(RoundedRectangle(cornerRadius: 28))
+    }
+    
+    var lastTransactionsView: some View {
+        VStack {
+            HStack {
+                VStack(alignment: .leading, spacing: -5) {
+                    Text("Last")
+                        .foregroundStyle(.white.opacity(0.55))
+                        .font(Font.system(size: 27, weight: .bold))
+                    
+                    Text("Transactions")
+                        .foregroundStyle(.white)
+                        .font(Font.system(size: 27, weight: .bold))
+                }
+                Spacer()
+                circularWhiteButton(image: "arrow.up") { }
+                    .rotationEffect(.degrees(45))
+            }
+            
+            transactionItem(transaction: viewModel.cards[0].transactions[0])
+            transactionItem(transaction: viewModel.cards[0].transactions[1])
+        }
+    }
+    
+    @ViewBuilder
+    func transactionItem(transaction: CardTransaction) -> some View {
+        HStack {
+            Button {
+    
+            } label: {
+                Image(transaction.isIncoming ? "received" : "send")
+                    .renderingMode(.template)
+                    .resizable()
+                    .foregroundStyle(.white)
+                    .frame(width: 22, height: 22)
+            }
+            .frame(width: 54, height: 54)
+            .background(Color.white.opacity(0.24))
+            .clipShape(Circle())
+            
+            VStack(alignment: .leading) {
+                Text(transaction.description)
+                Text("May 24, 2024")
+            }
+            .foregroundStyle(.white)
+            
+            Spacer()
+            Text("\(transaction.isIncoming ? "+" : "-") $\(transaction.value)")
+                .foregroundStyle(.white)
+                .padding(.trailing, 5)
+        }
+        .padding(10)
+        .background(Color.white.opacity(0.14))
+        .mask(
+            Capsule()
+        )
+        
     }
     
 }

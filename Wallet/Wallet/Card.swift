@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct CardModel {
+struct Card {
     var totalAmount: Int
     var validThrough: Date
     var name: String
     var digits: String
+    var transactions: [CardTransaction]
 }
